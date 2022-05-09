@@ -31,6 +31,8 @@ public class SwaggerConfig {
     @Bean
     public Docket restApi() {
 
+        System.out.println("swigger->"+title+version+path);
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(version)
                 .apiInfo(new ApiInfoBuilder()
