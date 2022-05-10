@@ -5,7 +5,7 @@
 |  o.`Y8b 88 88YbdP88 88"""  88  .o 88""       88""Yb Yb   dP Yb   dP   88   |
 |  8bodP' 88 88 YY 88 88     88ood8 888888     88oodP  YbodP   YbodP    88   |
 |                                                                            |
-|----------------------------------------------------------------------------|
+|-----------------------------------------------------------------1.0-RELEASE|
 :: Powered By   ::      https://github.com/lvdashi/simple-boot
-:: Swagger apis ::      [${swagger.controller.path}]
+:: Swagger apis ::      [${simple-boot.swagger.controller.path}]
 :: Swagger Url  ::      [ http://127.0.0.1:${server.port}/swagger-ui/ ]
