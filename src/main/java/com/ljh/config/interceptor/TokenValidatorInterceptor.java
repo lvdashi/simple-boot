@@ -1,7 +1,7 @@
 package com.ljh.config.interceptor;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.ljh.UserContext;
+import com.ljh.entity.UserContext;
 import com.ljh.api.ApiResponse;
 import com.ljh.config.annotion.TokenValidatorAnnotaion;
 import com.ljh.util.JacksonUtil;
@@ -46,7 +46,6 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
             }
             String token = request.getHeader("token");
             if (StringUtils.isEmpty(token)) {
-                //throw new LoginException("token为空，校验失败！");
                 response.setContentType("application/json;charset=utf-8");
                 response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token为空")));
                 return false;
@@ -54,7 +53,6 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
             //注释此部分可临时放开权限验证
             Claims claims = JwTokenUtil.getInstance().parseToken(token);
             if (ObjectUtil.isEmpty(claims)) {
-                //throw new LoginException("token校验失败！");
                 response.setContentType("application/json;charset=utf-8");
                 response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token校验失败")));
                 return false;

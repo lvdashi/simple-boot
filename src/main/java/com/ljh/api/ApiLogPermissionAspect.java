@@ -76,9 +76,7 @@ public class ApiLogPermissionAspect {
                 json_param = JacksonUtil.bean2Json(arguments[length - 1]);
             }
 
-
             Map<String,String[]> params=request.getParameterMap();
-
 
             // *========控制台输出=========*//
             log.info("执行类：" + targetName);
@@ -95,9 +93,6 @@ public class ApiLogPermissionAspect {
             }
             log.info("请求体参数：" + json_param);
             proceed = joinPoint.proceed(arguments);
-
-
-
         }catch (Throwable e){
             StringBuilder message = new StringBuilder();//堆栈异常信息
             message.append(e.toString());
@@ -105,11 +100,9 @@ public class ApiLogPermissionAspect {
             for (StackTraceElement stack : errs) {
                 message.append("\n\t").append(stack.toString());
             }
-            System.out.println("接口报错："+message);
-
-            String errInfo=errs.length>=0?e.getStackTrace()[0].toString():"";
-
-//            proceed= ApiResponse.error("接口请求失败："+errInfo+" -> "+e.getCause());
+            //System.out.println("接口报错："+message);
+            //String errInfo=errs.length>=0?e.getStackTrace()[0].toString():"";
+            //proceed= ApiResponse.error("接口请求失败："+errInfo+" -> "+e.getCause());
             proceed= ApiResponse.error("接口请求失败：" + e.getMessage());
         }
         //没有异常直接插入

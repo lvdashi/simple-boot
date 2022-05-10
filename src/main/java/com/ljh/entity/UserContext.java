@@ -1,4 +1,4 @@
-package com.ljh;
+package com.ljh.entity;
 
 import java.util.HashMap;
 import java.util.Map;

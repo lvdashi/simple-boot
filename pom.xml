@@ -6,7 +6,7 @@
 
     <groupId>com.ljh</groupId>
     <artifactId>simple-boot</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <description>保存常用配置，用于快速创建springboot的接口项目</description>
 
     <properties>
@@ -17,6 +17,10 @@
         <spring.version>5.3.12</spring.version>
         <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
         <slf4j.version>1.7.32</slf4j.version>
+        <tomcat.core.version>9.0.54</tomcat.core.version>
+        <aspectj.version>1.7.4</aspectj.version>
+        <cglib.version>3.1</cglib.version>
+        <spring.boot.version>2.1.17.RELEASE</spring.boot.version>
         <github.global.server>github</github.global.server>
     </properties>
 
@@ -24,7 +28,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.54</version>
+            <version>${tomcat.core.version}</version>
         </dependency>
         <!-- swagger begin -->
         <dependency>
@@ -48,17 +52,17 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.7.4</version>
+            <version>${aspectj.version}</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.7.4</version>
+            <version>${aspectj.version}</version>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>3.1</version>
+            <version>${cglib.version}</version>
         </dependency>
         <!-- AOP end -->
         <dependency>
@@ -80,6 +84,22 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <!-- 自定义验证注解 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

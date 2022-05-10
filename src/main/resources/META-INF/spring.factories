@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ljh.config.swagger.SwaggerConfig,\
+  com.ljh.config.interceptor.ConfigConfigurer,\
+  com.ljh.exception.ValidatedExceptionHandler,\
+  com.ljh.util.JwTokenUtil,\
+  com.ljh.api.ApiLogPermissionAspect

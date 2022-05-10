@@ -33,17 +33,17 @@ public class JwTokenUtil {
     private static Integer refreshTokenOffset;
 
 
-    @Value("${auth.jwtTokenSecret}")
+    @Value("${simple-boot.auth.jwtTokenSecret}")
     public void setJwtTokenSecret(String jwtTokenSecret) {
         JwTokenUtil.jwtTokenSecret = jwtTokenSecret;
     }
 
-    @Value("${auth.jwtTokenOffset}")
+    @Value("${simple-boot.auth.jwtTokenOffset}")
     public void setJwtTokenOffset(Integer jwtTokenOffset) {
         JwTokenUtil.jwtTokenOffset = jwtTokenOffset;
     }
 
-    @Value("${auth.refreshTokenOffset}")
+    @Value("${simple-boot.auth.refreshTokenOffset}")
     public void setRefreshTokenOffset(Integer refreshTokenOffset) {
         JwTokenUtil.refreshTokenOffset = refreshTokenOffset;
     }
