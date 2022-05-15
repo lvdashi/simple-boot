@@ -3,6 +3,8 @@ package com.ljh.exception;
 import com.ljh.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 参数验证
@@ -23,27 +28,40 @@ import java.util.List;
 @Slf4j
 @ControllerAdvice
 public class ValidatedExceptionHandler {
+
     /**
-     * 处理@Validated参数校验失败异常
-     * @param exception 异常类
-     * @return 响应
+     * 参数验证统一返回
+     * @param bindException
+     * @return
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse exceptionHandler(MethodArgumentNotValidException exception){
-        BindingResult result = exception.getBindingResult();
-        StringBuilder stringBuilder = new StringBuilder();
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            if (errors != null) {
-                errors.forEach(p -> {
-                    FieldError fieldError = (FieldError) p;
-                    log.warn("Bad Request Parameters: dto entity [{}],field [{}],message [{}]",fieldError.getObjectName(), fieldError.getField(), fieldError.getDefaultMessage());
-                    stringBuilder.append(fieldError.getDefaultMessage());
-                });
-            }
+    @ExceptionHandler({BindException.class})
+    public ApiResponse validationException(BindException bindException){
+        List<ObjectError> errors =  bindException.getAllErrors();
+        if(!CollectionUtils.isEmpty(errors)){
+            StringBuilder sb = new StringBuilder();
+            errors.forEach(e->sb.append(e.getDefaultMessage()).append(","));
+            return ApiResponse.error(sb.toString());
         }
-        return ApiResponse.error(stringBuilder.toString());
+        return ApiResponse.error(bindException.getLocalizedMessage());
+    }
+
+    /**
+     * 参数验证统一返回
+     * @param exception
+     * @return
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ApiResponse constraintViolationException(ConstraintViolationException exception){
+        Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
+        if(!CollectionUtils.isEmpty(constraintViolations)){
+            StringBuilder sb = new StringBuilder();
+            constraintViolations.forEach(e->sb.append(e.getMessage()).append(","));
+            return ApiResponse.error(sb.toString());
+        }
+        return ApiResponse.error(exception.getLocalizedMessage());
     }
 }

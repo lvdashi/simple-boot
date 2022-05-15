@@ -3,4 +3,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ljh.config.interceptor.ConfigConfigurer,\
   com.ljh.exception.ValidatedExceptionHandler,\
   com.ljh.util.JwTokenUtil,\
-  com.ljh.api.ApiLogPermissionAspect
+  com.ljh.api.ApiLogPermissionAspect,\
+  com.ljh.config.druid.DruidConfiguration,\
+  com.ljh.entity.MobilePageReq,\
+  com.ljh.config.druid.MybatisPlusConfig,\
+  com.ljh.controller.MainController
