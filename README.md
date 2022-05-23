@@ -50,7 +50,7 @@
     <repositories>
         <repository>
             <id>maven-repository-main</id>
-            <url>https://raw.github.com/lvdashi/simple-boot/main/</url>
+            <url>https://raw.github.com/lvdashi/simple-boot/pom/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
