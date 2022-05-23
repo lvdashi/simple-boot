@@ -2,6 +2,7 @@ package com.ljh.codegen;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
+import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -67,14 +68,13 @@ public class CodeGenerator {
     public static void generate(String moduleName,String tableName,String author) throws IOException {
         log.info("生成代码 -> ["+moduleName+"] 表名：" + tableName+" 作者："+author);
         log.info("配置生成路径 -> "+packagePath);
-        String codeOutPath="\\"+packagePath.replace(".","\\").toString()+"\\";
+        String codeOutPath="";
+        if(SystemUtil.getOsInfo().isWindows()){
+            codeOutPath="\\"+packagePath.replace(".","\\").toString()+"\\";
+        }else{
+            codeOutPath="/"+packagePath.replace(".","/").toString()+"/";
+        }
         log.info("codeOutPath->"+codeOutPath);
-//        if(SystemUtil.getOsInfo().isMac()){
-//            codeOutPath=packagePath.replace(".","/")+"/";
-//        }
-//        if(SystemUtil.getOsInfo().isWindows()){
-//            codeOutPath=packagePath.replace(".","\\")+"\\";
-//        }
         final String codeOutPathFinal=codeOutPath;
 
         List<String> genFileList = Arrays.asList("entity", "req", "rsp", "controller", "service", "mapper", "xml");
@@ -85,14 +85,13 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
 
 
-        String codePath=System.getProperty("user.dir")+"\\src\\main\\java";
+        String codePath="";
+        if(SystemUtil.getOsInfo().isWindows()){
+            codePath=System.getProperty("user.dir")+"\\src\\main\\java";
+        }else {
+            codePath=System.getProperty("user.dir")+"/src/main/java";
+        }
         log.info("codePath->"+codePath);
-//        if(SystemUtil.getOsInfo().isMac()){
-//            codePath+="/src/main/java";
-//        }
-//        if(SystemUtil.getOsInfo().isWindows()){
-//            codePath+="\\src\\main\\java";
-//        }
         final String projectPath = codePath;
         final String xmlPath=codePath.replace("java","resources").toString()+"/mapper/";
         log.info("代码实际生成路径 -> "+projectPath + codeOutPathFinal);
@@ -277,6 +276,9 @@ public class CodeGenerator {
             }
         }
         String baseBeanFile=System.getProperty("user.dir")+"\\src\\main\\java\\"+rootPath+"common\\entity\\BaseBean.java";
+        if(!SystemUtil.getOsInfo().isWindows()){
+            baseBeanFile=baseBeanFile.replaceAll("\\\\","/");
+        }
         String mobanFile="/templates/codegen/BaseBean.ftl";
 
         if(FileUtil.exist(baseBeanFile)==false){//不存在,则创建

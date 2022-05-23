@@ -63,5 +63,5 @@
     <dependency>
             <groupId>com.ljh</groupId>
             <artifactId>simple-boot</artifactId>
-            <version>1.1.RELEASE</version>
+            <version>1.2</version>
         </dependency>
