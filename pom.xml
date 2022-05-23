@@ -199,7 +199,7 @@
                     <!--本地jar地址-->
                     <outputDirectory>${project.build.directory}/repository</outputDirectory>
                     <!--分支-->
-                    <branch>refs/heads/main</branch>
+                    <branch>refs/heads/pom</branch>
                     <merge>true</merge>
 
                     <includes>
