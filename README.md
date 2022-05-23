@@ -32,6 +32,12 @@
         password: 123456
         #是否可以重置数据
         reSet: false
+      codeGen:
+        dbUrl: jdbc:mysql://-服务器IP-:-端口-/-改为数据库名-?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        dbUser: 用户
+        dbPwd: 密码
+        packagePath: com.xxx.xxx.modules
+        tablePrefix: bs_,sys_
 
 #### 接口放开权限验证(两种方式)：
 - 接口路径包含/open
