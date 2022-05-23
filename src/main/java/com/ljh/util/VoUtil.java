@@ -17,6 +17,13 @@ import java.util.List;
  **/
 public class VoUtil<T> {
 
+    private VoUtil() {
+    }
+
+    public static VoUtil getInstance() {
+        return new VoUtil();
+    }
+
     /**
      * 查询结果构造成移动端分页数据
      * @param req
