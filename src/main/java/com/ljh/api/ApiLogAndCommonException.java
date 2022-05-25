@@ -13,5 +13,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiLogAndCommonException {
+    //接口描述,可以优先使用swagger的注释
     String desc() default "未描述";
+    //是否打印接口返回值
+    boolean printRes() default true;
 }

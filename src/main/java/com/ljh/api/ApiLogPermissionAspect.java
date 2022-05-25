@@ -42,6 +42,7 @@ public class ApiLogPermissionAspect {
     @Around("point() && @annotation(apiLogDesc)")
     public Object parameterCheck(ProceedingJoinPoint joinPoint, ApiLogAndCommonException apiLogDesc) throws Exception {
         String desc=apiLogDesc.desc();//注解方法描述
+        boolean pringRes=apiLogDesc.printRes();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Object proceed=null;//返回值
         String method_type="";String api_url="";String targetName="";
@@ -110,7 +111,11 @@ public class ApiLogPermissionAspect {
         Long rep_time = System.currentTimeMillis() - now;
         log.info("接口耗时:" + String.valueOf(rep_time) + " ms");
         String res_json = JacksonUtil.bean2Json(proceed);
-        log.info("接口返回:" + res_json);
+        if(pringRes){
+            log.info("接口返回:" + res_json);
+        }else {
+            log.info("接口返回:(当前接口已设置为不打印)");
+        }
         log.info("请求结束<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         System.out.println("");
         System.out.println("");
