@@ -295,6 +295,28 @@ public class CodeGenerator {
     }
 
     /**
+     * 生成配置文件示例
+     */
+    public static void generateConfigDemoFile(){
+        String configFile=System.getProperty("user.dir")+"\\src\\main\\resources\\application-demo.yml";
+        if(!SystemUtil.getOsInfo().isWindows()){
+            configFile=configFile.replaceAll("\\\\","/");
+        }
+        String mobanFile="/templates/codegen/config.ftl";
+
+        if(FileUtil.exist(configFile)==false){//不存在,则创建
+            FileUtil.touch(configFile);
+
+            Map<String, Object> map = new HashMap<>();
+            try {
+                FreemarkerUtil.execute(mobanFile, map, configFile);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * 删除用不着的代码生成目录
      * @param srcPath
      * @param moduleName
