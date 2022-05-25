@@ -1,30 +1,29 @@
 package com.ljh.config.spring;
 
-import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
+import cn.hutool.core.comparator.VersionComparator;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import javax.swing.*;
-
-//表明它是一个配置类
-//@Configuration(proxyBeanMethods = false)
-//自动配置属性：ServerProperties
-//@EnableConfigurationProperties({WebMvcProperties.class})
-public class SpringAutoConfig {
-
-//    @Bean
-//    @ConfigurationProperties("spring.mvc.pathmatch")
-//    public WebMvcProperties.Pathmatch sxbhpDataSource() {
-//        WebMvcProperties.Pathmatch pathmatch=new WebMvcProperties.Pathmatch();
-//        pathmatch.
-//    }
+/**
+ * spring配置
+ */
+@Configuration
+public class SpringAutoConfig implements WebMvcConfigurer {
 
 
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        String springBootVersion = SpringBootVersion.getVersion();
+        if(VersionComparator.INSTANCE.compare(springBootVersion,"2.6.0")>0){//当前springboot版本高于2.6.0
+            //修改spring mvc处理映射匹配的默认策略
+            AntPathMatcher antPathMatcher=new AntPathMatcher();
+            //antPathMatcher.setPathSeparator();
+            configurer.setPathMatcher(antPathMatcher);
+        }
+        WebMvcConfigurer.super.configurePathMatch(configurer);
+    }
 }
