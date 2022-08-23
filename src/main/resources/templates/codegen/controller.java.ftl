@@ -48,7 +48,7 @@ public class ${entity}Controller {
     @ApiOperation("分页查询${table.comment!} 列表")
     public ApiResponse page(@Valid Query${entity}REQ req,  @Validated MobilePageReq mobilePageReq) {
         Page<${entity}DO> page = new Page<>(mobilePageReq.getPageNum(), mobilePageReq.getPageSize());
-        page=bsAppService.page(page, req.buildQueryWrapper());
+        page=${table.entityPath}Service.page(page, req.buildQueryWrapper());
         return ApiResponse.ok(page);
     }
 

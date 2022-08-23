@@ -9,5 +9,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ljh.config.druid.MybatisPlusConfig,\
   com.ljh.controller.MainController,\
   com.ljh.config.swagger.SwaggerBeanPostProcessor,\
-  com.ljh.codegen.CodeGenerator,\
-  com.ljh.config.spring.SpringAutoConfig
+  com.ljh.codegen.CodeGenerator
