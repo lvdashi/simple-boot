@@ -96,6 +96,7 @@ public class ApiLogPermissionAspect {
             log.info("请求体参数：" + json_param);
             proceed = joinPoint.proceed(arguments);
         }catch (Throwable e){
+            e.printStackTrace();
             StringBuilder message = new StringBuilder();//堆栈异常信息
             message.append(e.toString());
             StackTraceElement[] errs=e.getStackTrace();

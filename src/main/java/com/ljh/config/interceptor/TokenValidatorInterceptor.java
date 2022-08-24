@@ -60,8 +60,10 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
             UserContext.setUserId(claims.get(UserContext.CONTEXT_KEY_USER_ID,String.class));
             UserContext.setUserName(claims.get(UserContext.CONTEXT_KEY_USER_NAME,String.class));
             UserContext.setTenantId(claims.get(UserContext.CONTEXT_KEY_USER_TENANT_ID,String.class));
+            System.out.println("token校验成功");
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }
