@@ -69,9 +69,9 @@ public class UserContext {
         set(CONTEXT_KEY_USER_ID, userId);
     }
 
-    public static Long getUserId() {
+    public static String getUserId() {
         Object value = get(CONTEXT_KEY_USER_ID);
-        return Long.valueOf(String.valueOf(value));
+        return String.valueOf(value);
     }
 
     public static void setUserName(String userName) {
