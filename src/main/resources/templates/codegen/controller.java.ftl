@@ -56,7 +56,7 @@ public class ${entity}Controller {
     @ApiOperation("添加${table.comment!}信息")
     public ApiResponse add(@RequestBody @Valid Add${entity}REQ req) {
         ${entity}DO entity =new ${entity}DO();
-        BeanUtils.copyProperties(req,${entity}DO.class);
+        BeanUtils.copyProperties(req,entity);
         boolean result = ${table.entityPath}Service.add(entity);
         if (result) {
             return ApiResponse.ok("添加${table.comment!}成功");
