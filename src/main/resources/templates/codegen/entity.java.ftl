@@ -1,7 +1,9 @@
 package ${package.Entity};
 
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 #BaseBean#
 import io.swagger.annotations.ApiModel;
