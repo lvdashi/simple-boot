@@ -44,6 +44,11 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
                     return true;
                 }
             }
+        }catch (ClassCastException err){
+            System.out.println("请求头转换异常："+handler.toString());
+            return true;
+        }
+        try {
             String token = request.getHeader("token");
             if (StringUtils.isEmpty(token)) {
                 response.setContentType("application/json;charset=utf-8");
