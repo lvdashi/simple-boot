@@ -36,36 +36,41 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        try {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            if (Objects.requireNonNull(handlerMethod.getMethod()).isAnnotationPresent(TokenValidatorAnnotaion.class)) {
-                TokenValidatorAnnotaion tokenValidatorAnnotaion = handlerMethod.getMethod().getAnnotation(TokenValidatorAnnotaion.class);
-                if (!tokenValidatorAnnotaion.required()) {
-                    return true;
+        if(handler instanceof HandlerMethod){
+            try {
+                HandlerMethod handlerMethod = (HandlerMethod) handler;
+                if (Objects.requireNonNull(handlerMethod.getMethod()).isAnnotationPresent(TokenValidatorAnnotaion.class)) {
+                    TokenValidatorAnnotaion tokenValidatorAnnotaion = handlerMethod.getMethod().getAnnotation(TokenValidatorAnnotaion.class);
+                    if (!tokenValidatorAnnotaion.required()) {
+                        return true;
+                    }
                 }
-            }
-            String token = request.getHeader("token");
-            if (StringUtils.isEmpty(token)) {
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token为空")));
+                String token = request.getHeader("token");
+                if (StringUtils.isEmpty(token)) {
+                    response.setContentType("application/json;charset=utf-8");
+                    response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token为空")));
+                    return false;
+                }
+                //注释此部分可临时放开权限验证
+                Claims claims = JwTokenUtil.getInstance().parseToken(token);
+                if (ObjectUtil.isEmpty(claims)) {
+                    response.setContentType("application/json;charset=utf-8");
+                    response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token校验失败")));
+                    return false;
+                }
+                UserContext.setUserId(claims.get(UserContext.CONTEXT_KEY_USER_ID,String.class));
+                UserContext.setUserName(claims.get(UserContext.CONTEXT_KEY_USER_NAME,String.class));
+                UserContext.setTenantId(claims.get(UserContext.CONTEXT_KEY_USER_TENANT_ID,String.class));
+                System.out.println("token校验成功");
+                return true;
+            }catch (Exception e){
+                e.printStackTrace();
                 return false;
             }
-            //注释此部分可临时放开权限验证
-            Claims claims = JwTokenUtil.getInstance().parseToken(token);
-            if (ObjectUtil.isEmpty(claims)) {
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token校验失败")));
-                return false;
-            }
-            UserContext.setUserId(claims.get(UserContext.CONTEXT_KEY_USER_ID,String.class));
-            UserContext.setUserName(claims.get(UserContext.CONTEXT_KEY_USER_NAME,String.class));
-            UserContext.setTenantId(claims.get(UserContext.CONTEXT_KEY_USER_TENANT_ID,String.class));
-            System.out.println("token校验成功");
+        }else{
             return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
         }
+
     }
 
 
