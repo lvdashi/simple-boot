@@ -22,7 +22,7 @@ public class MobilePageReq {
     private Integer pageNum;
 
     @Range(min=5, max=100,message = "每页数量超过限制")
-    @NotNull(message = "每页数量能为空")
+    @NotNull(message = "每页数量不能为空")
     @ApiModelProperty(value = "每页数量")
     private Integer pageSize;
 }
