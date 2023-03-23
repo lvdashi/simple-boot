@@ -93,7 +93,7 @@ public class ${entity}Controller {
     public ApiResponse get(@PathVariable("id") Long id) {
         ${entity}DO entity = ${table.entityPath}Service.getById(id);
         ${entity}RSP resultVo = new ${entity}RSP();
-            BeanUtils.copyProperties(entity, ${entity}RSP.class);
+            BeanUtils.copyProperties(entity, resultVo);
         return ApiResponse.ok(resultVo);
     }
 }
