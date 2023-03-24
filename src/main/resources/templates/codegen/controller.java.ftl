@@ -73,7 +73,7 @@ public class ${entity}Controller {
         BeanUtils.copyProperties(req, entity);
         boolean result = ${table.entityPath}Service.updateById(entity);
         if (result) {
-            return ApiResponse.error("更新${table.comment!}成功");
+            return ApiResponse.ok("更新${table.comment!}成功");
         }
         return ApiResponse.error("更新${table.comment!}失败");
     }
@@ -83,7 +83,7 @@ public class ${entity}Controller {
     public ApiResponse del(@PathVariable("id") Long id) {
         boolean result = ${table.entityPath}Service.removeById(id);
         if (result) {
-        return ApiResponse.error("删除${table.comment!}成功");
+        return ApiResponse.ok("删除${table.comment!}成功");
         }
         return ApiResponse.error("删除${table.comment!}失败");
     }
