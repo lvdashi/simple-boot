@@ -12,11 +12,14 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.ljh.entity.TableFileds;
 import com.ljh.util.FreemarkerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.io.*;
 import java.util.*;
 
@@ -42,6 +45,8 @@ public class CodeGenerator {
     private static String dbPwd;
     private static String packagePath;
 
+    private static TableFileds setTableFileds;
+
     @Value("${simple-boot.codeGen.dbUrl}")
     public void setDbUrl(String dbUrl) {
         CodeGenerator.dbUrl = dbUrl;
@@ -59,12 +64,20 @@ public class CodeGenerator {
         CodeGenerator.packagePath = packagePath;
     }
 
-    /**
-     * 生成代码
-     * @param moduleName 生成模块名称
-     * @param tableName 生成的数据库对应表名
-     * @param author 生成作者
-     */
+    @Resource
+    private TableFileds tableFileds;
+
+    @PostConstruct
+    public void init() {
+        setTableFileds = this.tableFileds;
+    }
+
+        /**
+         * 生成代码
+         * @param moduleName 生成模块名称
+         * @param tableName 生成的数据库对应表名
+         * @param author 生成作者
+         */
     public static void generate(String moduleName,String tableName,String author) throws IOException {
         log.info("生成代码 -> ["+moduleName+"] 表名：" + tableName+" 作者："+author);
         log.info("配置生成路径 -> "+packagePath);
@@ -245,6 +258,10 @@ public class CodeGenerator {
         //strategy.setSuperControllerClass("com.example.demo.entity.jpa.base.BaseController");
         strategy.setSuperServiceClass(" com.ljh.jpa.BaseService");
         //写于父类中的公共字段
+//        for (int i = 0; i < setTableFileds.getCommonFields().size(); i++) {
+//            System.out.println("===>"+setTableFileds.getCommonFields().get(i));
+//        }
+
         //strategy.setSuperEntityColumns("id", "create_by", "create_time", "update_by", "update_time", "delete_time");
         strategy.setInclude(tableName);
         strategy.setControllerMappingHyphenStyle(true);

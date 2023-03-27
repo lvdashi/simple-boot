@@ -6,6 +6,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ljh.api.ApiLogPermissionAspect,\
   com.ljh.config.druid.DruidConfiguration,\
   com.ljh.entity.MobilePageReq,\
+  com.ljh.entity.TableFileds,\
   com.ljh.config.druid.MybatisPlusConfig,\
   com.ljh.controller.MainController,\
   com.ljh.config.swagger.SwaggerBeanPostProcessor,\

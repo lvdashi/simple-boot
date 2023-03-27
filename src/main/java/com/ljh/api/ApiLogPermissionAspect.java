@@ -106,7 +106,11 @@ public class ApiLogPermissionAspect {
             //System.out.println("接口报错："+message);
             //String errInfo=errs.length>=0?e.getStackTrace()[0].toString():"";
             //proceed= ApiResponse.error("接口请求失败："+errInfo+" -> "+e.getCause());
-            proceed= ApiResponse.error("接口请求失败：" + e.getMessage());
+            if(e.getMessage()!=null){
+                proceed= ApiResponse.error("接口请求失败：" + e.getMessage());
+            }else{
+                proceed= ApiResponse.error("接口请求失败");
+            }
         }
         //没有异常直接插入
         Long rep_time = System.currentTimeMillis() - now;
