@@ -36,4 +36,8 @@ public final class ApiResponse<T> {
   public static ApiResponse tokenErr(String errorMsg) {
     return new ApiResponse(415, errorMsg, new HashMap<>());
   }
+
+  public static ApiResponse roleErr(String errorMsg) {
+    return new ApiResponse(416, errorMsg, new HashMap<>());
+  }
 }

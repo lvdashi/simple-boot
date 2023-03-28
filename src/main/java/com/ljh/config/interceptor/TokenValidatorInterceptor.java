@@ -1,6 +1,8 @@
 package com.ljh.config.interceptor;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ljh.config.annotion.RoleVaildator;
 import com.ljh.entity.UserContext;
 import com.ljh.api.ApiResponse;
 import com.ljh.config.annotion.TokenValidatorAnnotaion;
@@ -58,10 +60,33 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
                     response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.tokenErr("token校验失败")));
                     return false;
                 }
+                //如果需要具体的权限验证
+                if (Objects.requireNonNull(handlerMethod.getMethod()).isAnnotationPresent(RoleVaildator.class)) {
+                    RoleVaildator roleVaildator = handlerMethod.getMethod().getAnnotation(RoleVaildator.class);
+                    //需要的权限
+                    String needRole = roleVaildator.roles();
+                    //用户所拥有的权限
+                    String userRoleStr=claims.get(UserContext.CONTEXT_KEY_USER_ROLE,String.class);
+                    if(StringUtils.isNotEmpty(needRole)){//配置了具体权限
+                        if(StringUtils.isEmpty(userRoleStr)){
+                            response.setContentType("application/json;charset=utf-8");
+                            response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.roleErr("用户未配置权限")));
+                            return false;
+                        }else{
+                            String userRoles[] = JacksonUtil.json2Bean(userRoleStr,String[].class);
+                            if(!ArrayUtil.contains(userRoles,needRole)){//用户没有该权限
+                                response.setContentType("application/json;charset=utf-8");
+                                response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.roleErr("权限校验失败")));
+                                return false;
+                            }
+                        }
+                    }
+                }
                 UserContext.setUserId(claims.get(UserContext.CONTEXT_KEY_USER_ID,String.class));
                 UserContext.setUserName(claims.get(UserContext.CONTEXT_KEY_USER_NAME,String.class));
                 UserContext.setTenantId(claims.get(UserContext.CONTEXT_KEY_USER_TENANT_ID,String.class));
-                System.out.println("token校验成功");
+                UserContext.setUserRole(claims.get(UserContext.CONTEXT_KEY_USER_ROLE,String.class));
+                System.out.println("校验成功");
                 return true;
             }catch (Exception e){
                 e.printStackTrace();

@@ -3,8 +3,8 @@ package com.ljh.config.annotion;
 import java.lang.annotation.*;
 
 /**
- * 权限验证注解
- * 开放接口可加上本注解去除权限认证
+ * Token验证注解
+ * 开放接口可加上本注解去除Token认证
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

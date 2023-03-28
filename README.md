@@ -39,8 +39,11 @@
         dbPwd: 密码
         #生成文件夹
         packagePath: com.xxx.xxx.modules
-        #表前缀
-        tablePrefix: bs_,sys_
+        common:
+          #生成的实体排除公共字段，以下为示例字段 【最大支持10个字段】
+          commonFields: [id,create_by,update_by,create_time,update_time,delete_time]
+          #表前缀，以下为示例字段（生成的代码命名自动去除表前缀）【最大支持10个字段】
+          commonPrefix: [article_,sys_]
 
 #### 接口放开权限验证(两种方式)：
 - 接口路径包含/open

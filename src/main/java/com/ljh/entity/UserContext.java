@@ -1,6 +1,7 @@
 package com.ljh.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,11 @@ public class UserContext {
      * 用户名
      */
     public static final String CONTEXT_KEY_USER_NAME = "userName";
+
+    /**
+     * 用户权限 JSON字符串
+     */
+    public static final String CONTEXT_KEY_USER_ROLE = "userRole";
 
     /**
      * 用户租户ID
@@ -91,5 +97,13 @@ public class UserContext {
         Object value = get(CONTEXT_KEY_USER_TENANT_ID);
         return String.valueOf(value);
     }
-    
+
+    public static void setUserRole(String userRole) {
+        set(CONTEXT_KEY_USER_ROLE, userRole);
+    }
+
+    public static String getUserRole() {
+        Object value = get(CONTEXT_KEY_USER_ROLE);
+        return String.valueOf(value);
+    }
 }

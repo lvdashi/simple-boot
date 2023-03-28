@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.ljh.entity.TableFileds;
+import com.ljh.entity.TablePrefix;
 import com.ljh.util.FreemarkerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,30 +47,34 @@ public class CodeGenerator {
     private static String packagePath;
 
     private static TableFileds setTableFileds;
+    private static TablePrefix setTablePrefix;
 
-    @Value("${simple-boot.codeGen.dbUrl}")
+    @Value("${simple-boot.code-gen.dbUrl}")
     public void setDbUrl(String dbUrl) {
         CodeGenerator.dbUrl = dbUrl;
     }
-    @Value("${simple-boot.codeGen.dbUser}")
+    @Value("${simple-boot.code-gen.dbUser}")
     public void setDbUser(String dbUser) {
         CodeGenerator.dbUser = dbUser;
     }
-    @Value("${simple-boot.codeGen.dbPwd}")
+    @Value("${simple-boot.code-gen.dbPwd}")
     public void setDbPwd(String dbPwd) {
         CodeGenerator.dbPwd = dbPwd;
     }
-    @Value("${simple-boot.codeGen.packagePath}")
+    @Value("${simple-boot.code-gen.packagePath}")
     public void setPackagePath(String packagePath) {
         CodeGenerator.packagePath = packagePath;
     }
 
     @Resource
     private TableFileds tableFileds;
+    @Resource
+    private TablePrefix tablePrefix;
 
     @PostConstruct
     public void init() {
         setTableFileds = this.tableFileds;
+        setTablePrefix = this.tablePrefix;
     }
 
         /**
@@ -249,24 +254,21 @@ public class CodeGenerator {
         //strategy.setNameConvert(new NameConvert());
         // 表字段生成策略：下划线连转驼峰
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        //strategy.setSuperEntityClass("com.example.demo.common.entity.BaseBean");
         // 是否为lombok模型; 需要lombok依赖
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setChainModel(true);
-        // 公共父类
-        //strategy.setSuperControllerClass("com.example.demo.entity.jpa.base.BaseController");
         strategy.setSuperServiceClass(" com.ljh.jpa.BaseService");
         //写于父类中的公共字段
-//        for (int i = 0; i < setTableFileds.getCommonFields().size(); i++) {
-//            System.out.println("===>"+setTableFileds.getCommonFields().get(i));
-//        }
-
-        //strategy.setSuperEntityColumns("id", "create_by", "create_time", "update_by", "update_time", "delete_time");
+        if(setTableFileds.getCommonFields().size()>0 && setTableFileds.getCommonFields().size()<=10){
+            strategy=CommonFiledHandler.hander(setTableFileds,strategy);
+        }
         strategy.setInclude(tableName);
         strategy.setControllerMappingHyphenStyle(true);
         //设置表名前缀 例： bs_ sys_
-        strategy.setTablePrefix("");
+        if(setTablePrefix.getCommonPrefix().size()>0 && setTablePrefix.getCommonPrefix().size()<=10){
+            strategy=CommonPrefixHandler.hander(setTablePrefix,strategy);
+        }
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new MyFreemarkerTemplateEngine());
         mpg.execute();

@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 @Valid
 public class MobilePageReq {
     @Range(min=1,message = "页码错误")
-    @NotNull(message = "页码不能为空")
+    @NotNull(message = "页码(pageNum)不能为空")
     @ApiModelProperty(value = "页码")
     private Integer pageNum;
 
-    @Range(min=5, max=100,message = "每页数量超过限制")
-    @NotNull(message = "每页数量不能为空")
+    @Range(min=5, max=100,message = "每页数量超过限制(5-100)")
+    @NotNull(message = "每页数量(pageSize)不能为空")
     @ApiModelProperty(value = "每页数量")
     private Integer pageSize;
 }
