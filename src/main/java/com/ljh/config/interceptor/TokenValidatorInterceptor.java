@@ -74,7 +74,14 @@ public class TokenValidatorInterceptor implements HandlerInterceptor {
                             return false;
                         }else{
                             String userRoles[] = JacksonUtil.json2Bean(userRoleStr,String[].class);
-                            if(!ArrayUtil.contains(userRoles,needRole)){//用户没有该权限
+                            String needRoleList[]=needRole.split("\\|");
+                            boolean haveRole=false;//拥有权限
+                            for (int i = 0; i < needRoleList.length; i++) {
+                                if(ArrayUtil.contains(userRoles,needRoleList[i].trim())){
+                                    haveRole=true;
+                                }
+                            }
+                            if(!haveRole){//用户没有该权限
                                 response.setContentType("application/json;charset=utf-8");
                                 response.getWriter().write(JacksonUtil.bean2Json(ApiResponse.roleErr("权限校验失败")));
                                 return false;
