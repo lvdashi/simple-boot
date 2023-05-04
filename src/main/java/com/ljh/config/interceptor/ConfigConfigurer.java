@@ -30,8 +30,6 @@ public class ConfigConfigurer implements WebMvcConfigurer {
                 .excludePathPatterns("/error")
                 //放行开放接口
                 .excludePathPatterns("/open/**")
-                //放行actuator监控
-                .excludePathPatterns("/actuator/**")
         ;
     }
 
